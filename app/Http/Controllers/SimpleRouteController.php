@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
+use App\Http\Resources\RouteResource;
+use App\Http\Controllers\Api\RouteController;
 
-class RouteController extends Controller
+
+class SimpleRouteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,9 +37,11 @@ class RouteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RouteController $route_controller , Request $request)
     {
+        $route = $route_controller->store($request);
         
+        return new RouteResource($route);
     }
 
     /**
@@ -45,9 +50,9 @@ class RouteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Route $route)
     {
-        //
+        return new RouteResource($route);
     }
 
     /**
@@ -70,7 +75,9 @@ class RouteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $route = $route_controller->update($request,$id);
+
+         return new RouteResource($route);         
     }
 
     /**
@@ -81,6 +88,6 @@ class RouteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $route = $route_controller->destroy($id);
     }
 }
